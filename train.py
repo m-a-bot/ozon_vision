@@ -109,8 +109,7 @@ def get_dir(args):
     output_path = args.output_path
     name = args.name
 
-    if not os.path.exists(args.output_path):
-        os.makedirs(args.output_path)
+    os.makedirs(args.output_path, exist_ok=True)
 
     path = os.path.join(output_path, name)
     saved_model_folder = os.path.join(path, "models")
