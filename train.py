@@ -140,7 +140,7 @@ def create_dataloader(image_folder, batch_size, im_size, config, is_training=Fal
 
 
 def main(args):
-    # policy = 'color,translation,cutout'
+    policy = ''
     output_path, root_models = get_dir(args)
     root_train = args.root_train
     root_test = args.root_test
