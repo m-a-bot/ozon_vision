@@ -152,6 +152,8 @@ def main(args):
 
     setup_ddp()
 
+    config = config = AutoConfig.from_pretrained(model_name, trust_remote_code=True)
+
     model = AutoModelForImageClassification.from_pretrained(model_name, config=config, trust_remote_code=True)
 
     # Меняем последний слой
