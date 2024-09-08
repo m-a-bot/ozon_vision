@@ -152,8 +152,6 @@ def main(args):
 
     setup_ddp()
 
-    config = AutoConfig.from_pretrained(model_name, trust_remote_code=True)
-    config.num_labels = num_classes  # Изменяем число выходных классов
     model = AutoModelForImageClassification.from_pretrained(model_name, config=config, trust_remote_code=True)
 
     # Меняем последний слой
@@ -162,8 +160,8 @@ def main(args):
 
     model = model.to(device)
 
-    train_loader = create_dataloader(root_train, batch_size, im_size, config, is_training=True)
-    test_loader = create_dataloader(root_test, batch_size, im_size, config, is_training=False)
+    train_loader = create_dataloader(root_train, batch_size, im_size, model.config, is_training=True)
+    test_loader = create_dataloader(root_test, batch_size, im_size, model.config, is_training=False)
 
     # Определение оптимизатора и функции потерь
     criterion = nn.CrossEntropyLoss()
