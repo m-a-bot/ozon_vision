@@ -27,8 +27,8 @@
   ],
   "num_labels": 2,
   "id2label": {
-    "0": "other",
-    "1": "smoking"
+    "1": "other",
+    "0": "smoking"
   },
   "dim": 96,
   "drop_path_rate": 0.2,
