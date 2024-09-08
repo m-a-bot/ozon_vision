@@ -178,7 +178,7 @@ def main(args):
         for batch_idx, (images, target) in loop:
             images = images.to(device)
             images = DiffAugment(images, policy)
-            target = target.to(device, dtype=torch.half)
+            target = target.to(device)
 
             outputs = model(images)['logits']
             loss = criterion(outputs, target)
@@ -215,7 +215,7 @@ def main(args):
             loop = tqdm(enumerate(test_loader), total=len(test_loader), leave=False)
             for bathc_idx, (images, target) in loop:
                 images = images.to(device)
-                target = target.to(device, dtype=torch.half)
+                target = target.to(device)
 
                 outputs = model(images)['logits']
                 
