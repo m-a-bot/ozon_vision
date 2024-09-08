@@ -181,14 +181,14 @@ def main(args):
             target = target.to(device)
 
             outputs = model(images)["logits"]
-            print(outputs)
-            input()
+            
             loss = criterion(outputs, target)
             loss.backward()
             optimizer.step()
 
             running_loss += loss.item() * images.size(0)
-            correct += (outputs == target).sum().item()
+            _, predicted = torch.max(outputs, 1)
+            correct += (predicted == target).sum().item()
             total += images.size(0)
 
             accuracy = correct / total
@@ -220,8 +220,10 @@ def main(args):
                 target = target.to(device)
 
                 outputs = model(images)['logits']
+
+                _, predicted = torch.max(outputs, 1)
                 
-                correct += (outputs == target).sum().item()
+                correct += (predicted == target).sum().item()
                 total += images.size(0)
         
         accuracy = correct / total
