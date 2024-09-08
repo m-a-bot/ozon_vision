@@ -153,7 +153,11 @@ def main(args):
 
     config = AutoConfig.from_pretrained(model_name, trust_remote_code=True)
 
-    model = AutoModelForImageClassification.from_pretrained(model_name, config=config, trust_remote_code=True)
+    if args.load_weight:
+        model = AutoModelForImageClassification.from_pretrained(model_name, config=config, trust_remote_code=True)
+
+    else:
+        model = AutoModelForImageClassification.from_config(config, trust_remote_code=True)
 
     model.to(device)
 
@@ -250,6 +254,7 @@ if __name__ == "__main__":
     parser.add_argument('--im_size', type=int, default=224)
     parser.add_argument('--ckpt', type=str, default="")
     parser.add_argument('--num_classes', type=int, default=2)
+    parser._add_action('--load_weight', 'store_true')
 
     args = parser.parse_args()
     main(args)
