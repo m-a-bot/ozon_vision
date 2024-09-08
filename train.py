@@ -7,7 +7,7 @@ from torchvision.datasets import ImageFolder
 import torch.nn as nn
 from torchvision import transforms
 from torch.utils.data import DataLoader, DistributedSampler
-import tqdm
+from tqdm.auto import tqdm
 from transformers import AutoModelForImageClassification, AutoConfig
 from PIL import Image
 from timm.data.transforms_factory import create_transform
