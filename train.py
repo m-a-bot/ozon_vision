@@ -135,7 +135,6 @@ def create_dataloader(image_folder, batch_size, im_size, config, is_training=Fal
     transform = transforms.Compose([
     transforms.Resize((im_size, im_size)), 
     transforms.ToTensor(),
-    transforms.RGB(),
     transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),  # Нормализация, как в предобученных моделях
 ])
 
