@@ -156,9 +156,9 @@ def main(args):
 
     model = AutoModelForImageClassification.from_pretrained(model_name, config=config, trust_remote_code=True)
 
-    model = DDP(model, device_ids=[int(os.environ['LOCAL_RANK'])])
+    model.to(device)
 
-    model = model.to(device)
+    model = DDP(model, device_ids=[int(os.environ['LOCAL_RANK'])])
 
     train_loader = create_dataloader(root_train, batch_size, im_size, model.config, is_training=True)
     test_loader = create_dataloader(root_test, batch_size, im_size, model.config, is_training=False)
