@@ -197,7 +197,7 @@ def main(args):
         print(f'Epoch {epoch+1}, Loss: {epoch_loss:.4f}, Accuracy: {epoch_accuracy:.4f}')
 
         if int(os.environ['LOCAL_RANK']) == 0:
-            save_checkpoint(model.module, optimizer, root_models + "/model.pth.tar")
+            # save_checkpoint(model.module, optimizer, root_models + "/model.pth.tar")
             model.module.save_pretrained(root_models)
 
     
@@ -222,7 +222,9 @@ def main(args):
         
         accuracy = correct / total
         accuracy = correct / total
-        print(f'Test Accuracy: {accuracy:.4f}')
+
+        if int(os.environ['LOCAL_RANK']) == 0:
+            print(f'Test Accuracy: {accuracy:.4f}')
 
     
     num_epochs = args.num_epochs
