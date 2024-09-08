@@ -175,13 +175,14 @@ def main(args):
 
         train_loader.sampler.set_epoch(epoch)
         loop = tqdm(enumerate(train_loader), total=len(train_loader), leave=False)
+        loop.set_description(f"Epoch [{epoch+1}/{args.num_epochs}]")
         for batch_idx, (images, target) in loop:
             images = images.to(device)
             images = DiffAugment(images, policy)
             target = target.to(device)
 
             outputs = model(images)["logits"]
-            
+
             loss = criterion(outputs, target)
             loss.backward()
             optimizer.step()
@@ -191,19 +192,13 @@ def main(args):
             correct += (predicted == target).sum().item()
             total += images.size(0)
 
-            accuracy = correct / total
-
-            loop.set_description(f"Epoch [{epoch}/{args.num_epochs}]")
-            loop.set_postfix(accuracy = accuracy)
-
         epoch_loss = running_loss / len(train_loader.dataset)
         epoch_accuracy = correct / total
 
-        loop.set_postfix(epoch_loss = epoch_loss, epoch_accuracy = epoch_accuracy)
-
-        save_checkpoint(model.module, optimizer, root_models + "/model.pth.tar")
+        print(f'Epoch {epoch+1}, Loss: {epoch_loss:.4f}, Accuracy: {epoch_accuracy:.4f}')
 
         if int(os.environ['LOCAL_RANK']) == 0:
+            save_checkpoint(model.module, optimizer, root_models + "/model.pth.tar")
             model.module.save_pretrained(root_models)
 
     
@@ -227,7 +222,8 @@ def main(args):
                 total += images.size(0)
         
         accuracy = correct / total
-        loop.set_postfix(test_accuracy = accuracy)
+        accuracy = correct / total
+        print(f'Test Accuracy: {accuracy:.4f}')
 
     
     num_epochs = args.num_epochs
