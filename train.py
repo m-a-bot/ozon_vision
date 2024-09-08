@@ -128,9 +128,21 @@ def cleanup_ddp():
 
 
 def create_dataloader(image_folder, batch_size, im_size, config, is_training=False):
-    transform = create_transform(input_size=(3, im_size, im_size), is_training=is_training,
-                                 mean=config.mean, std=config.std,
-                                 crop_mode=config.crop_mode, crop_pct=config.crop_pct)
+    from PIL import Image
+
+    def convert_to_rgb(image):
+        if image.mode == 'RGBA':
+            image = image.convert('RGB')
+        return image
+
+    from torchvision import transforms
+
+    transform = transforms.Compose([
+        transforms.Lambda(convert_to_rgb),
+        create_transform(input_size=(3, im_size, im_size), is_training=is_training,
+                                    mean=config.mean, std=config.std,
+                                    crop_mode=config.crop_mode, crop_pct=config.crop_pct)
+    ])
 
     dataset = ImageFolder(root=image_folder, transform=transform)
     sampler = DistributedSampler(dataset)
