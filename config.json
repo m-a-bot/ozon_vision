@@ -40,7 +40,7 @@
     8,
     16
   ],
-  "torch_dtype": "float32",
+  "torch_dtype": "float16",
   "transformers_version": "4.36.2",
   "window_size": [
     8,

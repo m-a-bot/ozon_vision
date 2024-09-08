@@ -221,7 +221,6 @@ def main(args):
                 total += images.size(0)
         
         accuracy = correct / total
-        accuracy = correct / total
 
         if int(os.environ['LOCAL_RANK']) == 0:
             print(f'Test Accuracy: {accuracy:.4f}')
