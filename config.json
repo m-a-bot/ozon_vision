@@ -25,6 +25,7 @@
     0.224,
     0.225
   ],
+  "num_labels": 2,
   "id2label": {
     "0": "other",
     "1": "smoking"
