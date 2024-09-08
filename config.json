@@ -8,12 +8,12 @@
     "AutoModelForImageClassification": "modeling_mambavision.MambaVisionModelForImageClassification"
   },
   "crop_mode": "center",
-  "crop_pct": 0.98,
+  "crop_pct": 0.93,
   "depths": [
-    1,
     3,
-    11,
-    4
+    3,
+    7,
+    5
   ],
   "mean": [
     0.485,
@@ -29,9 +29,9 @@
     "0": "other",
     "1": "smoking"
   },
-  "dim": 80,
+  "dim": 96,
   "drop_path_rate": 0.2,
-  "in_dim": 32,
+  "in_dim": 64,
   "mlp_ratio": 4,
   "model_type": "mambavision",
   "num_heads": [
