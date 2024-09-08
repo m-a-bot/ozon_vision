@@ -133,11 +133,11 @@ def create_dataloader(image_folder, batch_size, im_size, config, is_training=Fal
     import torchvision.transforms.v2 as transforms
 
     transform = transforms.Compose([
-        transforms.RGB(),
-        create_transform(input_size=(3, im_size, im_size), is_training=is_training,
-                                    mean=config.mean, std=config.std,
-                                    crop_mode=config.crop_mode, crop_pct=config.crop_pct)
-    ])
+    transforms.Resize((224, 224)), 
+    transforms.ToTensor(),
+    transforms.RGB(),
+    transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),  # Нормализация, как в предобученных моделях
+])
 
     dataset = ImageFolder(root=image_folder, transform=transform)
     sampler = DistributedSampler(dataset)
