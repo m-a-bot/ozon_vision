@@ -152,12 +152,10 @@ def main(args):
 
     setup_ddp()
 
-    config = config = AutoConfig.from_pretrained(model_name, trust_remote_code=True)
+    config = AutoConfig.from_pretrained(model_name, trust_remote_code=True)
 
     model = AutoModelForImageClassification.from_pretrained(model_name, config=config, trust_remote_code=True)
 
-    # Меняем последний слой
-    model.classifier = nn.Linear(model.classifier.in_features, num_classes)
     model = DDP(model, device_ids=[int(os.environ['LOCAL_RANK'])])
 
     model = model.to(device)
