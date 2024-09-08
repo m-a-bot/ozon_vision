@@ -180,7 +180,9 @@ def main(args):
             images = DiffAugment(images, policy)
             target = target.to(device)
 
-            outputs = model(images)['logits']
+            outputs = model(images)
+            print(outputs)
+            input()
             loss = criterion(outputs, target)
             loss.backward()
             optimizer.step()
