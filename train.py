@@ -254,7 +254,7 @@ if __name__ == "__main__":
     parser.add_argument('--im_size', type=int, default=224)
     parser.add_argument('--ckpt', type=str, default="")
     parser.add_argument('--num_classes', type=int, default=2)
-    parser._add_action('--load_weight', 'store_true')
+    parser._add_action('-lw', '--load_weight', 'store_true')
 
     args = parser.parse_args()
     main(args)
