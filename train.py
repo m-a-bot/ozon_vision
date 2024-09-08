@@ -160,8 +160,8 @@ def main(args):
 
     model = DDP(model, device_ids=[int(os.environ['LOCAL_RANK'])])
 
-    train_loader = create_dataloader(root_train, batch_size, im_size, model.config, is_training=True)
-    test_loader = create_dataloader(root_test, batch_size, im_size, model.config, is_training=False)
+    train_loader = create_dataloader(root_train, batch_size, im_size, config, is_training=True)
+    test_loader = create_dataloader(root_test, batch_size, im_size, config, is_training=False)
 
     # Определение оптимизатора и функции потерь
     criterion = nn.CrossEntropyLoss()
