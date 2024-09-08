@@ -126,19 +126,24 @@ def setup_ddp():
 def cleanup_ddp():
     dist.destroy_process_group()
 
+from PIL import Image, ImageFile
+ImageFile.LOAD_TRUNCATED_IMAGES = True  # Позволяет загрузить обрезанные изображения
+
+def safe_loader(path):
+    try:
+        img = Image.open(path).convert("RGB")
+        return img
+    except OSError:
+        return None
+
 
 def create_dataloader(image_folder, batch_size, im_size, config, is_training=False):
-    from PIL import Image
+    
+    transform = create_transform(input_size=(3, im_size, im_size), is_training=is_training,
+                                 mean=config.mean, std=config.std,
+                                 crop_mode=config.crop_mode, crop_pct=config.crop_pct)
 
-    import torchvision.transforms.v2 as transforms
-
-    transform = transforms.Compose([
-    transforms.Resize((im_size, im_size)), 
-    transforms.ToTensor(),
-    transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),  # Нормализация, как в предобученных моделях
-])
-
-    dataset = ImageFolder(root=image_folder, transform=transform)
+    dataset = ImageFolder(root=image_folder, transform=transform, loader=safe_loader)
     sampler = DistributedSampler(dataset)
     dataloader = DataLoader(dataset, batch_size=batch_size, shuffle=False, sampler=sampler)
     return dataloader
