@@ -186,7 +186,7 @@ def main(args):
             optimizer.step()
 
             running_loss += loss.item() * images.size(0)
-            correct += (target == target).sum().item()
+            correct += (outputs == target).sum().item()
             total += images.size(0)
 
             accuracy = correct / total
@@ -202,7 +202,7 @@ def main(args):
         save_checkpoint(model.module, optimizer, root_models + "/model.pth.tar")
 
         if int(os.environ['LOCAL_RANK']) == 0:
-            model.module.save_pretrained(root_models + "/mamba_tiny2_1k.pth.tar")
+            model.module.save_pretrained(root_models)
 
     
     def evaluate(epoch):
