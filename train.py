@@ -201,10 +201,10 @@ def main(args):
 
         loop.set_postfix(epoch_loss = epoch_loss, epoch_accuracy = epoch_accuracy)
 
-        save_checkpoint(model.module, optimizer, root_models + "model.pth.tar")
+        save_checkpoint(model.module, optimizer, root_models + "/model.pth.tar")
 
         if int(os.environ['LOCAL_RANK']) == 0:
-            model.module.save_pretrained("./saved_model")
+            model.module.save_pretrained(root_models + "/mamba_tiny2_1k.pth.tar")
 
     
     def evaluate(epoch):
@@ -240,6 +240,7 @@ def main(args):
 if __name__ == "__main__":
     
     parser = argparse.ArgumentParser(description='mambavision')
+
     parser.add_argument('--root_train', type=str, default="/kaggle/working/split_data/train")
     parser.add_argument('--root_test', type=str, default="/kaggle/working/split_data/test")
     parser.add_argument("--output_path", type=str, default='./')
